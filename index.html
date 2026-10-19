@@ -133,10 +133,10 @@ a{color:inherit}
 .result-box h3{font-family:var(--font-nunito);font-weight:600;font-size:20px;margin:0 0 10px;color:var(--dark-bg)}
 .result-box p{margin:0 0 10px}
 .result-box p:last-child{margin-bottom:0}
-.alert-box{background:#fff;border-left:4px solid var(--primary-color);border-radius:12px;padding:20px 22px;margin-top:20px}
-.alert-box strong{color:var(--primary-color)}
+.alert-box{background:#fff;border-left:4px solid var(--secondary-color);border-radius:12px;padding:20px 22px;margin-top:20px}
+.alert-box strong{color:var(--text-dark);font-family:var(--font-nunito);font-size:17px}
 .alert-box p{margin:0 0 10px}.alert-box p:last-child{margin:0}
-.alert-box a{color:var(--primary-color);font-weight:700}
+.alert-box a{color:var(--text-dark);font-weight:700;text-decoration-color:var(--secondary-color);text-underline-offset:3px}
 .result-actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:28px}
 .result-note{font-size:14px;font-style:italic;font-weight:400;color:#5a586b;margin-top:20px;text-align:center}
 
@@ -437,8 +437,9 @@ a{color:inherit}
     }
     html+='</div>';
     if(test===TESTS.phq9 && answers[8]>0){
-      html+='<div class="alert-box"><p><strong>Vous avez indiqué avoir eu des pensées de mort ou l\'envie de vous faire du mal.</strong></p>'+
-        '<p>Vous n\'êtes pas seul(e). Vous pouvez appeler le <a href="tel:3114">3114</a>, le numéro national de prévention du suicide, gratuit et accessible 24h/24, 7j/7. En cas de danger immédiat, appelez le <a href="tel:15">15</a> ou le <a href="tel:112">112</a>.</p></div>';
+      html+='<div class="alert-box"><p><strong>Merci d\'avoir répondu avec sincérité.</strong></p>'+
+        '<p>Vous avez indiqué que des idées de mort ou l\'envie de vous faire du mal vous traversent parfois. Ces pensées peuvent survenir quand on porte beaucoup, et elles méritent d\'être partagées.</p>'+
+        '<p>Des professionnels sont là pour vous écouter, à tout moment : le <a href="tel:3114">3114</a> est gratuit, confidentiel et joignable 24h/24, 7j/7. Si vous vous sentez en danger maintenant, appelez le <a href="tel:15">15</a> ou le <a href="tel:112">112</a>.</p></div>';
     }
     html+='<div class="result-actions">'+
         '<a href="https://entreprendre-encore.fr/rdv" class="btn-pill btn-gradient">Échanger avec notre équipe</a>'+
