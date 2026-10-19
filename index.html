@@ -138,6 +138,8 @@ a{color:inherit}
 .alert-box p{margin:0 0 10px}.alert-box p:last-child{margin:0}
 .alert-box a{color:var(--text-dark);font-weight:700;text-decoration-color:var(--secondary-color);text-underline-offset:3px}
 .result-actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:28px}
+.result-links{text-align:center;font-size:15px;color:#4a4858;margin:18px 0 0}
+.result-links a{color:var(--text-dark);font-weight:600;text-decoration-color:var(--secondary-color);text-underline-offset:3px}
 .result-note{font-size:14px;font-style:italic;font-weight:400;color:#5a586b;margin-top:20px;text-align:center}
 
 /* Footer (aperçu) */
@@ -442,9 +444,10 @@ a{color:inherit}
         '<p>Des professionnels sont là pour vous écouter, à tout moment : le <a href="tel:3114">3114</a> est gratuit, confidentiel et joignable 24h/24, 7j/7. Si vous vous sentez en danger maintenant, appelez le <a href="tel:15">15</a> ou le <a href="tel:112">112</a>.</p></div>';
     }
     html+='<div class="result-actions">'+
-        '<a href="https://entreprendre-encore.fr/rdv" class="btn-pill btn-gradient">Échanger avec notre équipe</a>'+
+        '<a href="https://entreprendre-encore.fr/rdv" class="btn-pill btn-gradient">Ne restez pas seul, parlons-en</a>'+
         '<button class="btn-pill btn-dark" id="againBtn">Faire un autre test</button>'+
       '</div>'+
+      '<p class="result-links">Notre réseau compte un psychologue : <a href="https://entreprendre-encore.fr/expert/geoffrey-boucard">découvrir Geoffrey Boucard</a> · <a href="https://entreprendre-encore.fr/blog?category=bien_etre">nos articles bien-être</a></p>'+
       '<p class="result-note">Ce résultat est une indication et ne constitue pas un diagnostic. Seul un professionnel de santé peut évaluer votre situation. Vos réponses n\'ont pas été enregistrées.</p>';
     qView.hidden=true; rView.hidden=false; rView.innerHTML=html;
     rView.classList.remove('result-in'); void rView.offsetWidth; rView.classList.add('result-in');
