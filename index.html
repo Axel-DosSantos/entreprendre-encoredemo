@@ -77,41 +77,57 @@ a{color:inherit}
 .card .btn-pill{align-self:flex-start}
 .legal{font-family:var(--font-open-sans);font-size:14px;font-style:italic;font-weight:300;color:var(--text-light);text-align:center;max-width:760px;margin:36px auto 0}
 
-/* Questionnaire (repris de diagnostic.css) */
-.overlay{position:fixed;inset:0;background:rgba(28,27,47,.95);display:none;align-items:center;justify-content:center;z-index:1000;padding:20px;overflow-y:auto}
+/* Questionnaire (base diagnostic.css, contrastes adoucis) */
+.overlay{position:fixed;inset:0;background:rgba(28,27,47,.92);display:none;align-items:center;justify-content:center;z-index:1000;padding:20px;overflow-y:auto;opacity:0;transition:opacity .25s ease}
 .overlay.open{display:flex}
-.questionnaire-content{background:var(--light-bg);padding:30px 40px;border-radius:var(--border-radius);box-shadow:0 10px 40px rgba(0,0,0,.2);width:100%;max-width:700px;position:relative;text-align:center;margin:auto}
-.close-btn{position:absolute;top:12px;right:18px;background:none;border:none;font-size:2.5rem;color:var(--text-light);cursor:pointer;line-height:1;transition:all .3s ease}
-.close-btn:hover{color:var(--primary-color);transform:scale(1.1)}
-.q-title{font-family:var(--font-nunito);font-size:14px;color:var(--text-light);margin:4px 0 14px}
-.progress-container{width:50%;height:6px;background:#ddd;border-radius:3px;margin:0 auto 10px;overflow:hidden}
-.progress-bar{height:100%;background:var(--accent-gradient);border-radius:3px;transition:width .4s ease-in-out;width:0}
-.q-count{font-size:13px;color:var(--text-light);margin-bottom:22px}
-.q-lead{font-size:15px;color:var(--text-light);margin:0 0 8px}
-.question-text{font-family:var(--font-nunito);font-weight:600;font-size:28px;color:var(--secondary-color);margin:0 0 28px;line-height:1.3}
-.answer-option{margin-bottom:12px}
+.overlay.visible{opacity:1}
+.questionnaire-content{background:var(--light-bg);padding:32px 40px 28px;border-radius:var(--border-radius);box-shadow:0 10px 40px rgba(0,0,0,.2);width:100%;max-width:680px;position:relative;text-align:center;margin:auto;transform:translateY(12px) scale(.98);transition:transform .3s cubic-bezier(.2,.8,.2,1)}
+.overlay.visible .questionnaire-content{transform:none}
+.close-btn{position:absolute;top:10px;right:16px;background:none;border:none;font-size:2.2rem;color:#5a586b;cursor:pointer;line-height:1;transition:color .2s ease}
+.close-btn:hover{color:var(--primary-color)}
+.q-title{font-family:var(--font-nunito);font-weight:600;font-size:14px;color:#5a586b;margin:2px 0 16px;letter-spacing:.02em}
+.progress-container{width:100%;max-width:360px;height:6px;background:rgba(28,27,47,.1);border-radius:3px;margin:0 auto 10px;overflow:hidden}
+.progress-bar{height:100%;background:var(--accent-gradient);border-radius:3px;transition:width .35s cubic-bezier(.2,.8,.2,1);width:0}
+.q-count{font-size:13px;color:#5a586b;margin-bottom:26px;font-variant-numeric:tabular-nums}
+.q-step{will-change:transform,opacity}
+.q-step.in-next{animation:stepInNext .28s cubic-bezier(.2,.8,.2,1)}
+.q-step.in-prev{animation:stepInPrev .28s cubic-bezier(.2,.8,.2,1)}
+@keyframes stepInNext{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:none}}
+@keyframes stepInPrev{from{opacity:0;transform:translateX(-24px)}to{opacity:1;transform:none}}
+.q-lead{font-size:15px;color:#4a4858;margin:0 0 10px}
+.question-text{font-family:var(--font-nunito);font-weight:700;font-size:25px;color:var(--text-dark);margin:0 0 28px;line-height:1.35}
+.answer-option{margin-bottom:10px}
 .answer-input{position:absolute;opacity:0;pointer-events:none}
-.answer-label{display:block;background:#fff;padding:15px 15px 15px 50px;border-radius:12px;border:1px solid #dee2e6;cursor:pointer;transition:all .3s ease;text-align:left;position:relative;font-size:16px;color:var(--text-dark)}
-.answer-label:hover{transform:translateY(-2px);border-color:var(--secondary-color);box-shadow:0 4px 15px rgba(243,156,18,.1)}
-.answer-label::before{content:'';position:absolute;left:15px;top:50%;transform:translateY(-50%);width:22px;height:22px;border-radius:50%;border:2px solid #ccc;background:#fff;transition:all .2s ease}
-.answer-input:checked+.answer-label{border-color:var(--secondary-color);box-shadow:0 4px 15px rgba(243,156,18,.2)}
+.answer-label{display:flex;align-items:center;gap:12px;background:#fff;padding:15px 18px 15px 52px;border-radius:12px;border:1.5px solid rgba(28,27,47,.12);cursor:pointer;transition:border-color .15s ease,background-color .15s ease,box-shadow .15s ease;text-align:left;position:relative;font-size:16px;color:var(--text-dark);user-select:none}
+.answer-label:hover{border-color:rgba(243,156,18,.6);background:#fffaf4}
+.answer-label:active{transform:scale(.99)}
+.answer-label::before{content:'';position:absolute;left:16px;top:50%;transform:translateY(-50%);width:22px;height:22px;border-radius:50%;border:2px solid #c9c7d1;background:#fff;transition:all .15s ease}
+.answer-input:checked+.answer-label{border-color:var(--secondary-color);background:#fff6ec;box-shadow:0 2px 10px rgba(243,156,18,.15)}
 .answer-input:checked+.answer-label::before{background:var(--secondary-color);border-color:var(--secondary-color)}
-.answer-input:checked+.answer-label::after{content:'';position:absolute;left:23px;top:50%;transform:translateY(-60%) rotate(45deg);width:6px;height:10px;border:solid #fff;border-width:0 2px 2px 0}
+.answer-input:checked+.answer-label::after{content:'';position:absolute;left:24px;top:50%;transform:translateY(-60%) rotate(45deg);width:6px;height:10px;border:solid #fff;border-width:0 2px 2px 0}
 .answer-input:focus-visible+.answer-label{outline:2px solid var(--secondary-color);outline-offset:2px}
-.question-navigation{display:flex;justify-content:space-between;align-items:center;margin-top:28px}
+.answer-key{margin-left:auto;font-size:12px;color:#8a889a;border:1px solid rgba(28,27,47,.12);border-radius:6px;padding:1px 7px}
+@media (hover:none){.answer-key{display:none}}
+.question-navigation{display:flex;justify-content:space-between;align-items:center;margin-top:24px}
+#prevBtn{color:#5a586b}
 
 /* Résultat */
 .result{text-align:left}
 .result-head{text-align:center;margin-bottom:24px}
 .result-head .q-title{margin-bottom:6px}
 .result-score{font-family:var(--font-nunito);font-weight:700;font-size:56px;line-height:1;color:var(--dark-bg)}
-.result-score small{font-size:22px;color:var(--text-light);font-weight:500}
-.result-level{display:inline-block;margin-top:12px;padding:6px 18px;border-radius:50px;color:#fff;font-family:var(--font-nunito);font-weight:600}
+.result-score small{font-size:22px;color:#5a586b;font-weight:500}
+.result-level{display:inline-flex;align-items:center;gap:8px;margin-top:14px;padding:6px 16px;border-radius:50px;background:#fff;border:1.5px solid rgba(28,27,47,.12);color:var(--text-dark);font-family:var(--font-nunito);font-weight:700}
+.result-level i{width:10px;height:10px;border-radius:50%;display:inline-block}
+.result-in>*{animation:resIn .45s cubic-bezier(.2,.8,.2,1) both}
+.result-in>*:nth-child(2){animation-delay:.08s}.result-in>*:nth-child(3){animation-delay:.12s}.result-in>*:nth-child(4){animation-delay:.18s}.result-in>*:nth-child(5){animation-delay:.24s}.result-in>*:nth-child(6){animation-delay:.3s}.result-in>*:nth-child(7){animation-delay:.34s}
+@keyframes resIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 .gauge{position:relative;margin:30px 0 8px}
 .gauge-track{display:flex;height:12px;border-radius:6px;overflow:hidden}
 .gauge-track span{height:100%}
-.gauge-marker{position:absolute;top:-7px;width:4px;height:26px;background:var(--dark-bg);border-radius:2px;transform:translateX(-50%);transition:left .6s ease}
-.gauge-legend{display:flex;font-size:12px;color:var(--text-light)}
+.gauge-marker{position:absolute;top:-7px;width:4px;height:26px;background:var(--dark-bg);border-radius:2px;transform:translateX(-50%);transition:left .9s cubic-bezier(.2,.8,.2,1) .2s}
+.gauge-legend{display:flex;font-size:12px;color:#5a586b}
 .gauge-legend span{text-align:center;padding:4px 2px 0}
 .result-box{background:#fff;border-radius:var(--border-radius);padding:24px;margin-top:24px;box-shadow:0 4px 15px rgba(0,0,0,.05)}
 .result-box h3{font-family:var(--font-nunito);font-weight:600;font-size:20px;margin:0 0 10px;color:var(--dark-bg)}
@@ -119,9 +135,10 @@ a{color:inherit}
 .result-box p:last-child{margin-bottom:0}
 .alert-box{background:#fff;border-left:4px solid var(--primary-color);border-radius:12px;padding:20px 22px;margin-top:20px}
 .alert-box strong{color:var(--primary-color)}
+.alert-box p{margin:0 0 10px}.alert-box p:last-child{margin:0}
 .alert-box a{color:var(--primary-color);font-weight:700}
 .result-actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:28px}
-.result-note{font-size:14px;font-style:italic;font-weight:300;color:var(--text-light);margin-top:20px;text-align:center}
+.result-note{font-size:14px;font-style:italic;font-weight:400;color:#5a586b;margin-top:20px;text-align:center}
 
 /* Footer (aperçu) */
 .ee-footer{background:var(--dark-bg);color:#fff;padding:32px 0 16px;font-size:14px}
@@ -218,9 +235,11 @@ a{color:inherit}
       <div class="q-title" id="q-title"></div>
       <div class="progress-container"><div class="progress-bar" id="progress"></div></div>
       <div class="q-count" id="qCount"></div>
-      <p class="q-lead" id="qLead"></p>
-      <div class="question-text" id="qText"></div>
-      <div class="answer-options" id="qOptions"></div>
+      <div class="q-step" id="qStep">
+        <p class="q-lead" id="qLead"></p>
+        <div class="question-text" id="qText"></div>
+        <div class="answer-options" id="qOptions" role="radiogroup"></div>
+      </div>
       <div class="question-navigation">
         <button class="btn-pill btn-ghost" id="prevBtn">&larr; Précédent</button>
         <button class="btn-pill btn-dark" id="nextBtn" disabled>Suivant</button>
@@ -336,7 +355,8 @@ a{color:inherit}
 
   const $ = id => document.getElementById(id);
   const overlay=$('overlay'), qView=$('qView'), rView=$('rView');
-  let test=null, steps=[], answers=[], i=0, lastFocus=null;
+  let test=null, steps=[], answers=[], i=0, lastFocus=null, lastPick=0;
+  $('qOptions').addEventListener('pointerdown',()=>{ lastPick=Date.now(); });
 
   function open(key){
     test=TESTS[key];
@@ -346,21 +366,25 @@ a{color:inherit}
     qView.hidden=false; rView.hidden=true;
     $('q-title').textContent=test.name;
     overlay.classList.add('open');
+    requestAnimationFrame(()=>requestAnimationFrame(()=>overlay.classList.add('visible')));
     document.body.style.overflow='hidden';
-    render();
+    render(0);
   }
   function close(){
-    overlay.classList.remove('open');
+    overlay.classList.remove('visible');
+    setTimeout(()=>overlay.classList.remove('open'),250);
     document.body.style.overflow='';
     if(lastFocus) lastFocus.focus();
   }
   function needsExtra(){
     return test.extra && answers.slice(0,test.questions.length).some(v=>v>0);
   }
-  function render(){
+  function render(dir){
     const q=steps[i];
     const total=test.questions.length + (needsExtra()?1:0);
     $('progress').style.width=(i/total*100)+'%';
+    const st=$('qStep'); st.classList.remove('in-next','in-prev'); void st.offsetWidth;
+    if(dir) st.classList.add(dir>0?'in-next':'in-prev');
     $('qCount').textContent='Question '+(i+1)+' sur '+total;
     $('qLead').textContent = i<test.questions.length ? test.lead : '';
     $('qText').textContent=q.text;
@@ -369,10 +393,11 @@ a{color:inherit}
       const id='opt'+k;
       const wrap=document.createElement('div'); wrap.className='answer-option';
       wrap.innerHTML='<input type="radio" class="answer-input" name="ans" id="'+id+'" value="'+o.v+'"><label class="answer-label" for="'+id+'"></label>';
-      wrap.querySelector('label').textContent=o.label;
+      const lab=wrap.querySelector('label'); lab.textContent=o.label;
+      const key=document.createElement('span'); key.className='answer-key'; key.textContent=k+1; lab.appendChild(key);
       const inp=wrap.querySelector('input');
       if(answers[i]===o.v) inp.checked=true;
-      inp.addEventListener('change',()=>{answers[i]=o.v; $('nextBtn').disabled=false; setTimeout(next,250);});
+      inp.addEventListener('change',()=>{answers[i]=o.v; $('nextBtn').disabled=false; if(Date.now()-lastPick<600) next();});
       box.appendChild(wrap);
     });
     $('prevBtn').style.visibility = i===0?'hidden':'visible';
@@ -385,9 +410,9 @@ a{color:inherit}
     if(answers[i]===undefined) return;
     if(i===test.questions.length-1 && needsExtra() && steps.length===test.questions.length) steps.push(test.extra);
     if(i===test.questions.length-1 && !needsExtra() && steps.length>test.questions.length){ steps.pop(); answers.length=test.questions.length; }
-    if(i<steps.length-1){ i++; render(); } else showResult();
+    if(i<steps.length-1){ i++; render(1); } else showResult();
   }
-  function prev(){ if(i>0){ i--; render(); } }
+  function prev(){ if(i>0){ i--; render(-1); } }
 
   function showResult(){
     const n=test.questions.length;
@@ -401,10 +426,10 @@ a{color:inherit}
       '<div class="result-head">'+
         '<img src="assets/spirale.png" alt="" aria-hidden="true" style="width:44px;height:44px;margin-bottom:8px">'+
         '<div class="q-title">'+test.name+'</div>'+
-        '<div class="result-score">'+score+'<small> / '+test.max+'</small></div>'+
-        '<div class="result-level" style="background:'+lvl.color+'">'+lvl.label+'</div>'+
+        '<div class="result-score"><span id="scoreNum">0</span><small> / '+test.max+'</small></div>'+
+        '<div class="result-level"><i style="background:'+lvl.color+'"></i>'+lvl.label+'</div>'+
       '</div>'+
-      '<div class="gauge"><div class="gauge-track">'+track+'</div><div class="gauge-marker" style="left:'+pos+'%"></div></div>'+
+      '<div class="gauge"><div class="gauge-track">'+track+'</div><div class="gauge-marker" id="marker" style="left:0%"></div></div>'+
       '<div class="gauge-legend">'+legend+'</div>'+
       '<div class="result-box"><h3>Ce que cela signifie</h3><p>'+lvl.text+'</p>';
     if(test===TESTS.phq9 && answers[n]!==undefined && answers[n]>=2){
@@ -421,7 +446,12 @@ a{color:inherit}
       '</div>'+
       '<p class="result-note">Ce résultat est une indication et ne constitue pas un diagnostic. Seul un professionnel de santé peut évaluer votre situation. Vos réponses n\'ont pas été enregistrées.</p>';
     qView.hidden=true; rView.hidden=false; rView.innerHTML=html;
+    rView.classList.remove('result-in'); void rView.offsetWidth; rView.classList.add('result-in');
     overlay.scrollTop=0;
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{ $('marker').style.left=pos+'%'; }));
+    const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduce||score===0){ $('scoreNum').textContent=score; }
+    else { const t0=performance.now(), d=700; (function tick(t){ const k=Math.min(1,Math.max(0,(t-t0)/d)), e=1-Math.pow(1-k,3); $('scoreNum').textContent=Math.round(score*e); if(k<1) requestAnimationFrame(tick); })(t0); }
     $('againBtn').addEventListener('click',()=>{ close(); document.querySelector('.tests').scrollIntoView({behavior:'smooth'}); });
   }
 
@@ -430,7 +460,15 @@ a{color:inherit}
   $('prevBtn').addEventListener('click',prev);
   $('closeBtn').addEventListener('click',close);
   overlay.addEventListener('click',e=>{ if(e.target===overlay) close(); });
-  document.addEventListener('keydown',e=>{ if(e.key==='Escape' && overlay.classList.contains('open')) close(); });
+  document.addEventListener('keydown',e=>{
+    if(!overlay.classList.contains('open')) return;
+    if(e.key==='Escape') return close();
+    if(qView.hidden) return;
+    const n=parseInt(e.key,10);
+    if(n>=1 && n<=9){ const inp=$('qOptions').querySelectorAll('.answer-input')[n-1]; if(inp){ e.preventDefault(); lastPick=Date.now(); inp.checked=true; inp.dispatchEvent(new Event('change')); } }
+    else if(e.key==='Enter' && e.target.classList && e.target.classList.contains('answer-input')){ e.preventDefault(); next(); }
+    else if(e.key==='Backspace'){ e.preventDefault(); prev(); }
+  });
 })();
 </script>
 </body>
