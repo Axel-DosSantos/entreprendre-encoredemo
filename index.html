@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Auto-évaluations - Entreprendre Encore</title>
+<meta name="description" content="Faites le point sur votre moral, votre niveau d'anxiété ou votre consommation de tabac grâce à des questionnaires reconnus. Résultat immédiat, gratuit et confidentiel.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Nunito:wght@400;500;600;700&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary-color:#e74c3c;
+  --secondary-color:#f39c12;
+  --accent-gradient:linear-gradient(135deg,#f39c12,#e74c3c);
+  --dark-bg:#1C1B2F;
+  --light-bg:#FFECD9;
+  --hero-text-color:#FFE9D2;
+  --text-dark:#1C1B2F;
+  --text-light:#666;
+  --border-radius:15px;
+  --shadow:0 10px 30px rgba(0,0,0,.1);
+  --font-nunito:'Nunito',sans-serif;
+  --font-open-sans:'Open Sans',sans-serif;
+  --font-caveat:'Caveat',cursive;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font-open-sans);color:var(--text-dark);background:#fff;line-height:1.5}
+a{color:inherit}
+.container{max-width:1140px;margin:0 auto;padding:0 20px}
+.highlight{font-family:var(--font-caveat);color:var(--secondary-color);font-size:1.2em;font-weight:600}
+
+/* Header (aperçu, à remplacer par le header du site) */
+.ee-nav{background:var(--dark-bg);padding:14px 0}
+.ee-nav .container{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.ee-nav img{height:38px}
+.ee-nav-links{display:flex;gap:24px;align-items:center}
+.ee-nav-links a{color:#fff;text-decoration:none;font-size:15px}
+.ee-nav-links a:hover{color:var(--secondary-color)}
+.btn-pill{display:inline-block;padding:10px 28px;border-radius:50px;font-family:var(--font-nunito);font-weight:600;font-size:15px;text-decoration:none;border:none;cursor:pointer;transition:all .3s ease}
+.btn-gradient{background:var(--accent-gradient);color:#fff;box-shadow:0 4px 15px rgba(231,76,60,.3)}
+.btn-gradient:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(231,76,60,.4)}
+.btn-outline{border:2px solid #fff;color:#fff;background:transparent}
+.btn-outline:hover{background:#fff;color:var(--dark-bg)}
+.btn-dark{background:var(--dark-bg);color:#fff}
+.btn-dark:hover{background:#0d1b34;transform:translateY(-2px);box-shadow:0 4px 15px rgba(28,27,47,.3)}
+.btn-ghost{background:transparent;color:var(--text-light);padding-left:0;padding-right:0}
+.btn-ghost:hover{color:var(--primary-color)}
+.btn-pill:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
+
+/* Hero */
+.hero{background:var(--dark-bg);color:#fff;text-align:center;padding:70px 0 170px}
+.hero h1{font-family:var(--font-nunito);font-weight:500;font-size:36px;line-height:1.2;margin:0 0 20px}
+.hero p{max-width:640px;margin:0 auto;color:var(--hero-text-color)}
+
+/* Intro */
+.page-body{background:var(--light-bg);padding-bottom:70px}
+.intro{position:relative;margin-top:-80px}
+.intro-card{background:var(--light-bg);padding:36px 40px;max-width:900px;margin:0 auto}
+.intro h2{font-size:20px;font-weight:700;display:flex;align-items:center;gap:12px;margin:0 0 18px}
+.intro h2 img{width:32px;height:32px}
+.intro ul{margin:0;padding-left:20px}
+.intro li{margin-bottom:10px}
+
+/* Choix du test */
+.tests{padding:60px 0 0}
+.tests h2{font-family:var(--font-nunito);font-weight:600;font-size:28px;text-align:center;margin:0 0 40px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.card{background:var(--dark-bg);color:#fff;border-radius:var(--border-radius);padding:36px 28px;box-shadow:var(--shadow);display:flex;flex-direction:column;transition:transform .3s ease}
+.card:hover{transform:translateY(-4px)}
+.card-tag{font-size:13px;color:var(--secondary-color);font-weight:600;letter-spacing:.03em;margin-bottom:8px}
+.card h3{font-family:var(--font-nunito);font-weight:500;font-size:24px;margin:0 0 12px}
+.card p{color:var(--hero-text-color);font-size:15px;flex:1;margin:0 0 24px}
+.card-meta{font-size:13px;opacity:.75;margin-bottom:18px}
+.card .btn-pill{align-self:flex-start}
+.legal{font-family:var(--font-open-sans);font-size:14px;font-style:italic;font-weight:300;color:var(--text-light);text-align:center;max-width:760px;margin:36px auto 0}
+
+/* Questionnaire (repris de diagnostic.css) */
+.overlay{position:fixed;inset:0;background:rgba(28,27,47,.95);display:none;align-items:center;justify-content:center;z-index:1000;padding:20px;overflow-y:auto}
+.overlay.open{display:flex}
+.questionnaire-content{background:var(--light-bg);padding:30px 40px;border-radius:var(--border-radius);box-shadow:0 10px 40px rgba(0,0,0,.2);width:100%;max-width:700px;position:relative;text-align:center;margin:auto}
+.close-btn{position:absolute;top:12px;right:18px;background:none;border:none;font-size:2.5rem;color:var(--text-light);cursor:pointer;line-height:1;transition:all .3s ease}
+.close-btn:hover{color:var(--primary-color);transform:scale(1.1)}
+.q-title{font-family:var(--font-nunito);font-size:14px;color:var(--text-light);margin:4px 0 14px}
+.progress-container{width:50%;height:6px;background:#ddd;border-radius:3px;margin:0 auto 10px;overflow:hidden}
+.progress-bar{height:100%;background:var(--accent-gradient);border-radius:3px;transition:width .4s ease-in-out;width:0}
+.q-count{font-size:13px;color:var(--text-light);margin-bottom:22px}
+.q-lead{font-size:15px;color:var(--text-light);margin:0 0 8px}
+.question-text{font-family:var(--font-nunito);font-weight:600;font-size:28px;color:var(--secondary-color);margin:0 0 28px;line-height:1.3}
+.answer-option{margin-bottom:12px}
+.answer-input{position:absolute;opacity:0;pointer-events:none}
+.answer-label{display:block;background:#fff;padding:15px 15px 15px 50px;border-radius:12px;border:1px solid #dee2e6;cursor:pointer;transition:all .3s ease;text-align:left;position:relative;font-size:16px;color:var(--text-dark)}
+.answer-label:hover{transform:translateY(-2px);border-color:var(--secondary-color);box-shadow:0 4px 15px rgba(243,156,18,.1)}
+.answer-label::before{content:'';position:absolute;left:15px;top:50%;transform:translateY(-50%);width:22px;height:22px;border-radius:50%;border:2px solid #ccc;background:#fff;transition:all .2s ease}
+.answer-input:checked+.answer-label{border-color:var(--secondary-color);box-shadow:0 4px 15px rgba(243,156,18,.2)}
+.answer-input:checked+.answer-label::before{background:var(--secondary-color);border-color:var(--secondary-color)}
+.answer-input:checked+.answer-label::after{content:'';position:absolute;left:23px;top:50%;transform:translateY(-60%) rotate(45deg);width:6px;height:10px;border:solid #fff;border-width:0 2px 2px 0}
+.answer-input:focus-visible+.answer-label{outline:2px solid var(--secondary-color);outline-offset:2px}
+.question-navigation{display:flex;justify-content:space-between;align-items:center;margin-top:28px}
+
+/* Résultat */
+.result{text-align:left}
+.result-head{text-align:center;margin-bottom:24px}
+.result-head .q-title{margin-bottom:6px}
+.result-score{font-family:var(--font-nunito);font-weight:700;font-size:56px;line-height:1;color:var(--dark-bg)}
+.result-score small{font-size:22px;color:var(--text-light);font-weight:500}
+.result-level{display:inline-block;margin-top:12px;padding:6px 18px;border-radius:50px;color:#fff;font-family:var(--font-nunito);font-weight:600}
+.gauge{position:relative;margin:30px 0 8px}
+.gauge-track{display:flex;height:12px;border-radius:6px;overflow:hidden}
+.gauge-track span{height:100%}
+.gauge-marker{position:absolute;top:-7px;width:4px;height:26px;background:var(--dark-bg);border-radius:2px;transform:translateX(-50%);transition:left .6s ease}
+.gauge-legend{display:flex;font-size:12px;color:var(--text-light)}
+.gauge-legend span{text-align:center;padding:4px 2px 0}
+.result-box{background:#fff;border-radius:var(--border-radius);padding:24px;margin-top:24px;box-shadow:0 4px 15px rgba(0,0,0,.05)}
+.result-box h3{font-family:var(--font-nunito);font-weight:600;font-size:20px;margin:0 0 10px;color:var(--dark-bg)}
+.result-box p{margin:0 0 10px}
+.result-box p:last-child{margin-bottom:0}
+.alert-box{background:#fff;border-left:4px solid var(--primary-color);border-radius:12px;padding:20px 22px;margin-top:20px}
+.alert-box strong{color:var(--primary-color)}
+.alert-box a{color:var(--primary-color);font-weight:700}
+.result-actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:28px}
+.result-note{font-size:14px;font-style:italic;font-weight:300;color:var(--text-light);margin-top:20px;text-align:center}
+
+/* Footer (aperçu) */
+.ee-footer{background:var(--dark-bg);color:#fff;padding:32px 0 16px;font-size:14px}
+.ee-footer img{height:36px;margin-bottom:12px}
+.ee-footer small{display:block;opacity:.7;margin-top:16px}
+
+@media (max-width:900px){.cards{grid-template-columns:1fr}.ee-nav-links .hide-m{display:none}}
+@media (max-width:600px){
+  .hero h1{font-size:28px}
+  .intro-card{padding:28px 22px}
+  .questionnaire-content{padding:28px 20px}
+  .question-text{font-size:22px}
+  .progress-container{width:80%}
+  .ee-nav-links a:not(.btn-pill){display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER : aperçu uniquement, utiliser le header existant du site ===== -->
+<nav class="ee-nav">
+  <div class="container">
+    <a href="https://entreprendre-encore.fr/"><img src="https://entreprendre-encore.fr/images/LogoEntreprendreencore.svg" alt="Entreprendre Encore"></a>
+    <div class="ee-nav-links">
+      <a href="https://entreprendre-encore.fr/service" class="hide-m">Nos services</a>
+      <a href="https://entreprendre-encore.fr/notre-equipe?region=" class="hide-m">Notre équipe</a>
+      <a href="https://entreprendre-encore.fr/blog" class="hide-m">Ressources</a>
+      <a href="https://entreprendre-encore.fr/rdv" class="btn-pill btn-gradient">Prendre RDV</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ===== DÉBUT DU CONTENU DE LA PAGE ===== -->
+<section class="hero">
+  <div class="container">
+    <h1>Faites le point sur <span class="highlight">votre moral</span></h1>
+    <p>Diriger une entreprise en difficulté pèse aussi sur la santé. Ces questionnaires, utilisés par les médecins et les psychologues, vous aident à y voir plus clair en quelques minutes. Gratuit, anonyme, résultat immédiat.</p>
+  </div>
+</section>
+
+<div class="page-body">
+<section class="intro">
+  <div class="container">
+   <div class="intro-card">
+    <h2><img src="https://entreprendre-encore.fr/images/LogoEntreprendreencore.svg" alt="" aria-hidden="true">Ces auto-évaluations vous permettront de savoir :</h2>
+    <ul>
+      <li>Si votre fatigue ou votre baisse de moral mérite qu'on s'y arrête.</li>
+      <li>Quel est votre niveau d'anxiété au quotidien.</li>
+      <li>Si vous gagneriez à en parler à un professionnel, et vers qui vous tourner.</li>
+    </ul>
+   </div>
+  </div>
+</section>
+
+<section class="tests">
+  <div class="container">
+    <h2>Choisissez <span class="highlight">votre questionnaire</span></h2>
+    <div class="cards">
+      <div class="card">
+        <div class="card-tag">PHQ-9</div>
+        <h3>Moral et humeur</h3>
+        <p>Évalue les signes de déprime ou de dépression ressentis au cours des deux dernières semaines.</p>
+        <div class="card-meta">9 questions · 2 minutes</div>
+        <button class="btn-pill btn-gradient" data-test="phq9">Commencer</button>
+      </div>
+      <div class="card">
+        <div class="card-tag">GAD-7</div>
+        <h3>Stress et anxiété</h3>
+        <p>Mesure l'intensité de l'anxiété et des inquiétudes ressenties au cours des deux dernières semaines.</p>
+        <div class="card-meta">7 questions · 2 minutes</div>
+        <button class="btn-pill btn-gradient" data-test="gad7">Commencer</button>
+      </div>
+      <div class="card">
+        <div class="card-tag">Test de Fagerström</div>
+        <h3>Consommation de tabac</h3>
+        <p>Évalue votre niveau de dépendance à la cigarette, souvent renforcée en période de tension.</p>
+        <div class="card-meta">6 questions · 1 minute</div>
+        <button class="btn-pill btn-gradient" data-test="fager">Commencer</button>
+      </div>
+    </div>
+    <p class="legal">Vos réponses ne sont ni enregistrées ni transmises : le calcul se fait uniquement dans votre navigateur. Ces questionnaires sont des outils d'auto-évaluation et ne remplacent pas l'avis d'un médecin ou d'un psychologue.</p>
+  </div>
+</section>
+</div>
+<!-- ===== FIN DU CONTENU DE LA PAGE ===== -->
+
+<!-- Questionnaire -->
+<div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="q-title">
+  <div class="questionnaire-content">
+    <button class="close-btn" id="closeBtn" aria-label="Fermer">&times;</button>
+    <div id="qView">
+      <div class="q-title" id="q-title"></div>
+      <div class="progress-container"><div class="progress-bar" id="progress"></div></div>
+      <div class="q-count" id="qCount"></div>
+      <p class="q-lead" id="qLead"></p>
+      <div class="question-text" id="qText"></div>
+      <div class="answer-options" id="qOptions"></div>
+      <div class="question-navigation">
+        <button class="btn-pill btn-ghost" id="prevBtn">&larr; Précédent</button>
+        <button class="btn-pill btn-dark" id="nextBtn" disabled>Suivant</button>
+      </div>
+    </div>
+    <div id="rView" class="result" hidden></div>
+  </div>
+</div>
+
+<!-- ===== FOOTER : aperçu uniquement ===== -->
+<footer class="ee-footer">
+  <div class="container">
+    <img src="https://entreprendre-encore.fr/images/LogoEntreprendreencore.svg" alt="Entreprendre Encore">
+    <div>contact@entreprendre-encore.fr</div>
+    <small>Entreprendre encore © 2026 - Évry Courcouronnes</small>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const FREQ = [
+    {label:"Jamais", v:0},
+    {label:"Plusieurs jours", v:1},
+    {label:"Plus de la moitié des jours", v:2},
+    {label:"Presque tous les jours", v:3}
+  ];
+  const yesNo = [{label:"Oui",v:1},{label:"Non",v:0}];
+
+  const TESTS = {
+    phq9:{
+      name:"Moral et humeur (PHQ-9)",
+      lead:"Au cours des 2 dernières semaines, à quelle fréquence avez-vous été gêné(e) par :",
+      max:27,
+      questions:[
+        "Peu d'intérêt ou de plaisir à faire les choses",
+        "Être triste, déprimé(e) ou désespéré(e)",
+        "Difficultés à s'endormir ou à rester endormi(e), ou dormir trop",
+        "Se sentir fatigué(e) ou manquer d'énergie",
+        "Avoir peu d'appétit ou manger trop",
+        "Avoir une mauvaise opinion de soi-même, ou le sentiment d'être nul(le), ou d'avoir déçu sa famille ou s'être déçu(e) soi-même",
+        "Avoir du mal à se concentrer, par exemple pour lire le journal ou regarder la télévision",
+        "Bouger ou parler si lentement que les autres auraient pu le remarquer, ou au contraire être si agité(e) que vous avez eu du mal à tenir en place",
+        "Penser qu'il vaudrait mieux mourir ou envisager de vous faire du mal d'une manière ou d'une autre"
+      ].map(t=>({text:t, options:FREQ})),
+      extra:{
+        text:"À quel point ces difficultés ont-elles rendu votre travail, vos tâches à la maison ou vos relations avec les autres difficiles ?",
+        options:[{label:"Pas du tout difficiles",v:0},{label:"Assez difficiles",v:1},{label:"Très difficiles",v:2},{label:"Extrêmement difficiles",v:3}]
+      },
+      levels:[
+        {min:0,max:4,label:"Pas de signe de dépression",color:"#7fb77e",
+         text:"Votre score ne montre pas de signe de dépression. Si la situation de votre entreprise vous pèse malgré tout, en parler reste utile : notre équipe est là pour ça."},
+        {min:5,max:9,label:"Signes légers",color:"#f5c26b",
+         text:"Votre score indique des signes dépressifs légers. C'est fréquent quand on traverse une période difficile. Ne restez pas seul(e) : en parler à votre médecin traitant ou à un psychologue peut vraiment aider."},
+        {min:10,max:14,label:"Signes modérés",color:"#f39c12",
+         text:"Votre score indique des signes dépressifs modérés. Nous vous conseillons d'en parler à votre médecin traitant. Il peut vous orienter, notamment vers des séances avec un psychologue remboursées dans le cadre du dispositif « Mon soutien psy »."},
+        {min:15,max:19,label:"Signes modérément sévères",color:"#ec7a2e",
+         text:"Votre score indique des signes dépressifs importants. Nous vous recommandons de consulter rapidement votre médecin traitant pour faire le point et être accompagné(e)."},
+        {min:20,max:27,label:"Signes sévères",color:"#e74c3c",
+         text:"Votre score indique des signes dépressifs sévères. Il est important de consulter un médecin sans attendre. Vous n'avez pas à traverser ça seul(e)."}
+      ]
+    },
+    gad7:{
+      name:"Stress et anxiété (GAD-7)",
+      lead:"Au cours des 2 dernières semaines, à quelle fréquence avez-vous été gêné(e) par :",
+      max:21,
+      questions:[
+        "Un sentiment de nervosité, d'anxiété ou de tension",
+        "Être incapable d'arrêter de vous inquiéter ou de contrôler vos inquiétudes",
+        "Des inquiétudes excessives à propos de tout et de rien",
+        "Des difficultés à vous détendre",
+        "Une agitation telle qu'il est difficile de rester tranquille",
+        "Devenir facilement contrarié(e) ou irritable",
+        "Avoir peur que quelque chose d'épouvantable puisse arriver"
+      ].map(t=>({text:t, options:FREQ})),
+      levels:[
+        {min:0,max:4,label:"Pas d'anxiété notable",color:"#7fb77e",
+         text:"Votre score ne montre pas d'anxiété notable. Restez attentif(ve) à vous si la pression augmente."},
+        {min:5,max:9,label:"Anxiété légère",color:"#f5c26b",
+         text:"Votre score indique une anxiété légère. En parler à votre médecin traitant ou à un psychologue peut vous aider à mieux gérer cette période."},
+        {min:10,max:14,label:"Anxiété modérée",color:"#f39c12",
+         text:"Votre score indique une anxiété modérée. Nous vous conseillons d'en parler à votre médecin traitant. Il peut vous orienter, notamment vers des séances avec un psychologue remboursées dans le cadre du dispositif « Mon soutien psy »."},
+        {min:15,max:21,label:"Anxiété sévère",color:"#e74c3c",
+         text:"Votre score indique une anxiété sévère. Nous vous recommandons de consulter rapidement un médecin pour être accompagné(e)."}
+      ]
+    },
+    fager:{
+      name:"Consommation de tabac (Fagerström)",
+      lead:"",
+      max:10,
+      questions:[
+        {text:"Le matin, combien de temps après votre réveil fumez-vous votre première cigarette ?",
+         options:[{label:"Dans les 5 minutes",v:3},{label:"Entre 6 et 30 minutes",v:2},{label:"Entre 31 et 60 minutes",v:1},{label:"Après plus de 60 minutes",v:0}]},
+        {text:"Trouvez-vous difficile de vous abstenir de fumer dans les endroits où c'est interdit (cinéma, bibliothèque…) ?", options:yesNo},
+        {text:"À quelle cigarette renonceriez-vous le plus difficilement ?",
+         options:[{label:"La première de la journée",v:1},{label:"Une autre",v:0}]},
+        {text:"Combien de cigarettes fumez-vous par jour, en moyenne ?",
+         options:[{label:"10 ou moins",v:0},{label:"11 à 20",v:1},{label:"21 à 30",v:2},{label:"31 ou plus",v:3}]},
+        {text:"Fumez-vous à intervalles plus rapprochés durant les premières heures de la matinée que durant le reste de la journée ?", options:yesNo},
+        {text:"Fumez-vous lorsque vous êtes malade au point de devoir rester au lit presque toute la journée ?", options:yesNo}
+      ],
+      levels:[
+        {min:0,max:2,label:"Pas de dépendance",color:"#7fb77e",
+         text:"Votre score n'indique pas de dépendance physique au tabac. Si vous souhaitez arrêter, c'est le bon moment."},
+        {min:3,max:4,label:"Dépendance faible",color:"#f5c26b",
+         text:"Votre score indique une dépendance faible. Un accompagnement peut faciliter l'arrêt : parlez-en à votre médecin ou appelez Tabac Info Service au 39 89."},
+        {min:5,max:6,label:"Dépendance moyenne",color:"#f39c12",
+         text:"Votre score indique une dépendance moyenne. Les substituts nicotiniques, remboursés sur prescription, et l'accompagnement de Tabac Info Service (39 89) augmentent nettement les chances de réussite."},
+        {min:7,max:10,label:"Dépendance forte",color:"#e74c3c",
+         text:"Votre score indique une dépendance forte. Nous vous conseillons d'en parler à votre médecin ou à un tabacologue, qui pourra vous proposer un accompagnement adapté. Tabac Info Service : 39 89."}
+      ]
+    }
+  };
+
+  const $ = id => document.getElementById(id);
+  const overlay=$('overlay'), qView=$('qView'), rView=$('rView');
+  let test=null, steps=[], answers=[], i=0, lastFocus=null;
+
+  function open(key){
+    test=TESTS[key];
+    steps=test.questions.slice();
+    answers=[]; i=0;
+    lastFocus=document.activeElement;
+    qView.hidden=false; rView.hidden=true;
+    $('q-title').textContent=test.name;
+    overlay.classList.add('open');
+    document.body.style.overflow='hidden';
+    render();
+  }
+  function close(){
+    overlay.classList.remove('open');
+    document.body.style.overflow='';
+    if(lastFocus) lastFocus.focus();
+  }
+  function needsExtra(){
+    return test.extra && answers.slice(0,test.questions.length).some(v=>v>0);
+  }
+  function render(){
+    const q=steps[i];
+    const total=test.questions.length + (needsExtra()?1:0);
+    $('progress').style.width=(i/total*100)+'%';
+    $('qCount').textContent='Question '+(i+1)+' sur '+total;
+    $('qLead').textContent = i<test.questions.length ? test.lead : '';
+    $('qText').textContent=q.text;
+    const box=$('qOptions'); box.innerHTML='';
+    q.options.forEach((o,k)=>{
+      const id='opt'+k;
+      const wrap=document.createElement('div'); wrap.className='answer-option';
+      wrap.innerHTML='<input type="radio" class="answer-input" name="ans" id="'+id+'" value="'+o.v+'"><label class="answer-label" for="'+id+'"></label>';
+      wrap.querySelector('label').textContent=o.label;
+      const inp=wrap.querySelector('input');
+      if(answers[i]===o.v) inp.checked=true;
+      inp.addEventListener('change',()=>{answers[i]=o.v; $('nextBtn').disabled=false; setTimeout(next,250);});
+      box.appendChild(wrap);
+    });
+    $('prevBtn').style.visibility = i===0?'hidden':'visible';
+    $('nextBtn').disabled = answers[i]===undefined;
+    $('nextBtn').textContent = (i===total-1)?'Voir mon résultat':'Suivant';
+    const first=box.querySelector('input:checked')||box.querySelector('input');
+    if(first) first.focus({preventScroll:true});
+  }
+  function next(){
+    if(answers[i]===undefined) return;
+    if(i===test.questions.length-1 && needsExtra() && steps.length===test.questions.length) steps.push(test.extra);
+    if(i===test.questions.length-1 && !needsExtra() && steps.length>test.questions.length){ steps.pop(); answers.length=test.questions.length; }
+    if(i<steps.length-1){ i++; render(); } else showResult();
+  }
+  function prev(){ if(i>0){ i--; render(); } }
+
+  function showResult(){
+    const n=test.questions.length;
+    const score=answers.slice(0,n).reduce((a,b)=>a+b,0);
+    const lvl=test.levels.find(l=>score>=l.min&&score<=l.max);
+    const span=test.max+1;
+    const track=test.levels.map(l=>'<span style="width:'+((l.max-l.min+1)/span*100)+'%;background:'+l.color+'"></span>').join('');
+    const legend=test.levels.map(l=>'<span style="width:'+((l.max-l.min+1)/span*100)+'%">'+l.min+'–'+l.max+'</span>').join('');
+    const pos=((score+0.5)/span*100);
+    let html=''+
+      '<div class="result-head">'+
+        '<div class="q-title">'+test.name+'</div>'+
+        '<div class="result-score">'+score+'<small> / '+test.max+'</small></div>'+
+        '<div class="result-level" style="background:'+lvl.color+'">'+lvl.label+'</div>'+
+      '</div>'+
+      '<div class="gauge"><div class="gauge-track">'+track+'</div><div class="gauge-marker" style="left:'+pos+'%"></div></div>'+
+      '<div class="gauge-legend">'+legend+'</div>'+
+      '<div class="result-box"><h3>Ce que cela signifie</h3><p>'+lvl.text+'</p>';
+    if(test===TESTS.phq9 && answers[n]!==undefined && answers[n]>=2){
+      html+='<p>Vous indiquez aussi que ces difficultés pèsent fortement sur votre quotidien : c\'est une raison de plus d\'en parler à un professionnel.</p>';
+    }
+    html+='</div>';
+    if(test===TESTS.phq9 && answers[8]>0){
+      html+='<div class="alert-box"><p><strong>Vous avez indiqué avoir eu des pensées de mort ou l\'envie de vous faire du mal.</strong></p>'+
+        '<p>Vous n\'êtes pas seul(e). Vous pouvez appeler le <a href="tel:3114">3114</a>, le numéro national de prévention du suicide, gratuit et accessible 24h/24, 7j/7. En cas de danger immédiat, appelez le <a href="tel:15">15</a> ou le <a href="tel:112">112</a>.</p></div>';
+    }
+    html+='<div class="result-actions">'+
+        '<a href="https://entreprendre-encore.fr/rdv" class="btn-pill btn-gradient">Échanger avec notre équipe</a>'+
+        '<button class="btn-pill btn-dark" id="againBtn">Faire un autre test</button>'+
+      '</div>'+
+      '<p class="result-note">Ce résultat est une indication et ne constitue pas un diagnostic. Seul un professionnel de santé peut évaluer votre situation. Vos réponses n\'ont pas été enregistrées.</p>';
+    qView.hidden=true; rView.hidden=false; rView.innerHTML=html;
+    overlay.scrollTop=0;
+    $('againBtn').addEventListener('click',()=>{ close(); document.querySelector('.tests').scrollIntoView({behavior:'smooth'}); });
+  }
+
+  document.querySelectorAll('[data-test]').forEach(b=>b.addEventListener('click',()=>open(b.dataset.test)));
+  $('nextBtn').addEventListener('click',next);
+  $('prevBtn').addEventListener('click',prev);
+  $('closeBtn').addEventListener('click',close);
+  overlay.addEventListener('click',e=>{ if(e.target===overlay) close(); });
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape' && overlay.classList.contains('open')) close(); });
+})();
+</script>
+</body>
+</html>
