@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Auto-évaluations - Entreprendre Encore</title>
 <meta name="description" content="Faites le point sur votre moral, votre niveau d'anxiété ou votre consommation de tabac grâce à des questionnaires reconnus. Résultat immédiat, gratuit et confidentiel.">
+<link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Nunito:wght@400;500;600;700&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
@@ -48,16 +49,19 @@ a{color:inherit}
 .btn-pill:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
 
 /* Hero */
-.hero{background:var(--dark-bg);color:#fff;text-align:center;padding:70px 0 170px}
+.hero{background:var(--dark-bg);color:#fff;text-align:center;padding:70px 0 170px;position:relative;overflow:hidden}
+.hero .container{position:relative;z-index:1}
+.hero-spiral{position:absolute;right:-90px;bottom:-110px;width:380px;opacity:.06;pointer-events:none}
 .hero h1{font-family:var(--font-nunito);font-weight:500;font-size:36px;line-height:1.2;margin:0 0 20px}
 .hero p{max-width:640px;margin:0 auto;color:var(--hero-text-color)}
 
 /* Intro */
 .page-body{background:var(--light-bg);padding-bottom:70px}
 .intro{position:relative;margin-top:-80px}
-.intro-card{background:var(--light-bg);padding:36px 40px;max-width:900px;margin:0 auto}
+.intro-card{background:var(--light-bg);display:grid;grid-template-columns:1fr 260px;gap:36px;align-items:center;padding:36px 40px;max-width:900px;margin:0 auto}
 .intro h2{font-size:20px;font-weight:700;display:flex;align-items:center;gap:12px;margin:0 0 18px}
 .intro h2 img{width:32px;height:32px}
+.intro-photo{width:100%;height:300px;object-fit:cover;border-radius:var(--border-radius)}
 .intro ul{margin:0;padding-left:20px}
 .intro li{margin-bottom:10px}
 
@@ -67,6 +71,7 @@ a{color:inherit}
 .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
 .card{background:var(--dark-bg);color:#fff;border-radius:var(--border-radius);padding:36px 28px;box-shadow:var(--shadow);display:flex;flex-direction:column;transition:transform .3s ease}
 .card:hover{transform:translateY(-4px)}
+.card-icon{width:52px;height:52px;object-fit:contain;margin-bottom:18px}
 .card-tag{font-size:13px;color:var(--secondary-color);font-weight:600;letter-spacing:.03em;margin-bottom:8px}
 .card h3{font-family:var(--font-nunito);font-weight:500;font-size:24px;margin:0 0 12px}
 .card p{color:var(--hero-text-color);font-size:15px;flex:1;margin:0 0 24px}
@@ -125,10 +130,11 @@ a{color:inherit}
 .ee-footer img{height:36px;margin-bottom:12px}
 .ee-footer small{display:block;opacity:.7;margin-top:16px}
 
-@media (max-width:900px){.cards{grid-template-columns:1fr}.ee-nav-links .hide-m{display:none}}
+@media (max-width:900px){.cards{grid-template-columns:1fr}.intro-card{grid-template-columns:1fr}.ee-nav-links .hide-m{display:none}}
 @media (max-width:600px){
   .hero h1{font-size:28px}
   .intro-card{padding:28px 22px}
+  .intro-photo{height:200px}
   .questionnaire-content{padding:28px 20px}
   .question-text{font-size:22px}
   .progress-container{width:80%}
@@ -141,7 +147,7 @@ a{color:inherit}
 <!-- ===== HEADER : aperçu uniquement, utiliser le header existant du site ===== -->
 <nav class="ee-nav">
   <div class="container">
-    <a href="https://entreprendre-encore.fr/"><img src="https://entreprendre-encore.fr/images/LogoEntreprendreencore.svg" alt="Entreprendre Encore"></a>
+    <a href="https://entreprendre-encore.fr/"><img src="assets/logo.svg" alt="Entreprendre Encore"></a>
     <div class="ee-nav-links">
       <a href="https://entreprendre-encore.fr/service" class="hide-m">Nos services</a>
       <a href="https://entreprendre-encore.fr/notre-equipe?region=" class="hide-m">Notre équipe</a>
@@ -153,6 +159,7 @@ a{color:inherit}
 
 <!-- ===== DÉBUT DU CONTENU DE LA PAGE ===== -->
 <section class="hero">
+  <img class="hero-spiral" src="assets/spirale-blanc.png" alt="" aria-hidden="true">
   <div class="container">
     <h1>Faites le point sur <span class="highlight">votre moral</span></h1>
     <p>Diriger une entreprise en difficulté pèse aussi sur la santé. Ces questionnaires, utilisés par les médecins et les psychologues, vous aident à y voir plus clair en quelques minutes. Gratuit, anonyme, résultat immédiat.</p>
@@ -163,12 +170,15 @@ a{color:inherit}
 <section class="intro">
   <div class="container">
    <div class="intro-card">
-    <h2><img src="https://entreprendre-encore.fr/images/LogoEntreprendreencore.svg" alt="" aria-hidden="true">Ces auto-évaluations vous permettront de savoir :</h2>
+    <div>
+    <h2><img src="assets/spirale.png" alt="" aria-hidden="true">Ces auto-évaluations vous permettront de savoir :</h2>
     <ul>
       <li>Si votre fatigue ou votre baisse de moral mérite qu'on s'y arrête.</li>
       <li>Quel est votre niveau d'anxiété au quotidien.</li>
       <li>Si vous gagneriez à en parler à un professionnel, et vers qui vous tourner.</li>
     </ul>
+    </div>
+    <img class="intro-photo" src="assets/marche.webp" alt="Randonneurs avançant ensemble sur une crête au lever du jour">
    </div>
   </div>
 </section>
@@ -178,6 +188,7 @@ a{color:inherit}
     <h2>Choisissez <span class="highlight">votre questionnaire</span></h2>
     <div class="cards">
       <div class="card">
+        <img class="card-icon" src="assets/icon-soutien.png" alt="" aria-hidden="true">
         <div class="card-tag">PHQ-9</div>
         <h3>Moral et humeur</h3>
         <p>Évalue les signes de déprime ou de dépression ressentis au cours des deux dernières semaines.</p>
@@ -185,6 +196,7 @@ a{color:inherit}
         <button class="btn-pill btn-gradient" data-test="phq9">Commencer</button>
       </div>
       <div class="card">
+        <img class="card-icon" src="assets/icon-anxiete.png" alt="" aria-hidden="true">
         <div class="card-tag">GAD-7</div>
         <h3>Stress et anxiété</h3>
         <p>Mesure l'intensité de l'anxiété et des inquiétudes ressenties au cours des deux dernières semaines.</p>
@@ -192,6 +204,7 @@ a{color:inherit}
         <button class="btn-pill btn-gradient" data-test="gad7">Commencer</button>
       </div>
       <div class="card">
+        <img class="card-icon" src="assets/icon-protection.png" alt="" aria-hidden="true">
         <div class="card-tag">Test de Fagerström</div>
         <h3>Consommation de tabac</h3>
         <p>Évalue votre niveau de dépendance à la cigarette, souvent renforcée en période de tension.</p>
@@ -228,7 +241,7 @@ a{color:inherit}
 <!-- ===== FOOTER : aperçu uniquement ===== -->
 <footer class="ee-footer">
   <div class="container">
-    <img src="https://entreprendre-encore.fr/images/LogoEntreprendreencore.svg" alt="Entreprendre Encore">
+    <img src="assets/logo.svg" alt="Entreprendre Encore">
     <div>contact@entreprendre-encore.fr</div>
     <small>Entreprendre encore © 2026 - Évry Courcouronnes</small>
   </div>
@@ -394,6 +407,7 @@ a{color:inherit}
     const pos=((score+0.5)/span*100);
     let html=''+
       '<div class="result-head">'+
+        '<img src="assets/spirale.png" alt="" aria-hidden="true" style="width:44px;height:44px;margin-bottom:8px">'+
         '<div class="q-title">'+test.name+'</div>'+
         '<div class="result-score">'+score+'<small> / '+test.max+'</small></div>'+
         '<div class="result-level" style="background:'+lvl.color+'">'+lvl.label+'</div>'+
